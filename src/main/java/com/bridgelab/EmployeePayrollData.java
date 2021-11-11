@@ -29,7 +29,6 @@ public class EmployeePayrollData {
 		if (o == null || getClass() != o.getClass())
 			return false;
 		EmployeePayrollData that = (EmployeePayrollData) o;
-		return id == that.id && Double.compare(that.salary, salary) == 0 && Objects.equals(name, that.name)
-				&& Objects.equals(start, that.start);
+		return id == that.id && Double.compare(that.salary, salary) == 0 && Objects.equals(name, that.name);
 	}
 }
