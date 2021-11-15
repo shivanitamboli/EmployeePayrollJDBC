@@ -3,7 +3,9 @@ package com.bridgelab;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class EmployeePayrollDBService {
 	private PreparedStatement employeePayrollDataStatement;
@@ -211,6 +213,122 @@ public class EmployeePayrollDBService {
 		String sql = String.format("SELECT * FROM employee_payroll WHERE start_date BETWEEN '%s' AND '%s';",
 				Date.valueOf(startDate), Date.valueOf(endDate));
 		return this.getEmployeePayrollDataUsingDB(sql);
+	}
+
+	/**
+	 * purpose : To find the average salary of the employees group by their gender
+	 *
+	 * @return the gender and average salary of the employees
+	 * @throws EmployeePayrollException if assigning employees details are not found
+	 */
+	public Map<String, Double> getAverageSalaryByGender() throws EmployeePayrollException {
+		String sql = "SELECT gender, AVG(salary) as avg_salary FROM employee_payroll GROUP BY gender;";
+		Map<String, Double> genderToAverageSalaryMap = new HashMap<>();
+		try (Connection connection = this.getConnection()) {
+			Statement statement = connection.createStatement();
+			ResultSet result = statement.executeQuery(sql);
+			while (result.next()) {
+				String gender = result.getString("gender");
+				double avgSalary = result.getDouble("avg_salary");
+				genderToAverageSalaryMap.put(gender, avgSalary);
+			}
+		} catch (SQLException e) {
+			throw new EmployeePayrollException("Please check the getAverageSalaryByGender() for detailed information");
+		}
+		return genderToAverageSalaryMap;
+	}
+
+	/**
+	 * purpose : To find the minimum salary of the employees group by their gender
+	 *
+	 * @return the gender and minimum salary of the employees
+	 * @throws EmployeePayrollException if assigning employees details are not found
+	 */
+	public Map<String, Double> getMinimumSalaryByGender() throws EmployeePayrollException {
+		String sql = "SELECT gender, MIN(salary) as min_salary FROM employee_payroll GROUP BY gender;";
+		Map<String, Double> genderToMinimumSalaryMap = new HashMap<>();
+		try (Connection connection = this.getConnection()) {
+			Statement statement = connection.createStatement();
+			ResultSet result = statement.executeQuery(sql);
+			while (result.next()) {
+				String gender = result.getString("gender");
+				double minSalary = result.getDouble("min_salary");
+				genderToMinimumSalaryMap.put(gender, minSalary);
+			}
+		} catch (SQLException e) {
+			throw new EmployeePayrollException("Please check the getMinimumSalaryByGender() for detailed information");
+		}
+		return genderToMinimumSalaryMap;
+	}
+
+	/**
+	 * purpose : To find the maximum salary of the employees group by their gender
+	 *
+	 * @return the gender and maximum salary of the employees
+	 * @throws EmployeePayrollException if assigning employees details are not found
+	 */
+	public Map<String, Double> getMaximumSalaryByGender() throws EmployeePayrollException {
+		String sql = "SELECT gender, MAX(salary) as max_salary FROM employee_payroll GROUP BY gender;";
+		Map<String, Double> genderToMaximumSalaryMap = new HashMap<>();
+		try (Connection connection = this.getConnection()) {
+			Statement statement = connection.createStatement();
+			ResultSet result = statement.executeQuery(sql);
+			while (result.next()) {
+				String gender = result.getString("gender");
+				double maxSalary = result.getDouble("max_salary");
+				genderToMaximumSalaryMap.put(gender, maxSalary);
+			}
+		} catch (SQLException e) {
+			throw new EmployeePayrollException("Please check the getMaximumSalaryByGender() for detailed information");
+		}
+		return genderToMaximumSalaryMap;
+	}
+
+	/**
+	 * purpose : To find the total salary of the employees group by their gender
+	 *
+	 * @return the gender and total salary of the employees
+	 * @throws EmployeePayrollException if assigning employees details are not found
+	 */
+	public Map<String, Double> getTotalSalaryByGender() throws EmployeePayrollException {
+		String sql = "SELECT gender, SUM(salary) as total_salary FROM employee_payroll GROUP BY gender;";
+		Map<String, Double> genderToTotalSalaryMap = new HashMap<>();
+		try (Connection connection = this.getConnection()) {
+			Statement statement = connection.createStatement();
+			ResultSet result = statement.executeQuery(sql);
+			while (result.next()) {
+				String gender = result.getString("gender");
+				double totalSalary = result.getDouble("total_salary");
+				genderToTotalSalaryMap.put(gender, totalSalary);
+			}
+		} catch (SQLException e) {
+			throw new EmployeePayrollException("Please check the getTotalSalaryByGender() for detailed information");
+		}
+		return genderToTotalSalaryMap;
+	}
+
+	/**
+	 * purpose : To find the total number of employees group by their gender
+	 *
+	 * @return the gender and total number of the employees
+	 * @throws EmployeePayrollException if assigning employees details are not found
+	 */
+	public Map<String, Double> getTotalNumOfEmployeesByGender() throws EmployeePayrollException {
+		String sql = "SELECT gender, COUNT(gender) as num_of_employees FROM employee_payroll GROUP BY gender;";
+		Map<String, Double> genderToTotalNumOfEmployeesMap = new HashMap<>();
+		try (Connection connection = this.getConnection()) {
+			Statement statement = connection.createStatement();
+			ResultSet result = statement.executeQuery(sql);
+			while (result.next()) {
+				String gender = result.getString("gender");
+				double numOfEmployees = result.getInt("num_of_employees");
+				genderToTotalNumOfEmployeesMap.put(gender, numOfEmployees);
+			}
+		} catch (SQLException e) {
+			throw new EmployeePayrollException(
+					"Please check the getTotalNumOfEmployeesByGender() for detailed information");
+		}
+		return genderToTotalNumOfEmployeesMap;
 	}
 
 	/**

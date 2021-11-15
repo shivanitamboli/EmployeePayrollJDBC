@@ -2,6 +2,7 @@ package com.bridgelab;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public class EmployeePayrollService {
 
@@ -43,6 +44,71 @@ public class EmployeePayrollService {
 			LocalDate endDate) throws EmployeePayrollException {
 		if (ioService.equals(IOService.DB_IO))
 			return employeePayrollDBService.getEmployeePayrollForDateRange(startDate, endDate);
+		return null;
+	}
+
+	/**
+	 * Purpose : To find the average salary of the employees assigned by gender
+	 *
+	 * @param ioService : takes the enum
+	 * @return the actual values of the assigned employees
+	 * @throws EmployeePayrollException if assigning employees details are not found
+	 */
+	public Map<String, Double> readAverageSalaryByGender(IOService ioService) throws EmployeePayrollException {
+		if (ioService.equals(IOService.DB_IO))
+			return employeePayrollDBService.getAverageSalaryByGender();
+		return null;
+	}
+
+	/**
+	 * Purpose : To find the minimum salary of the employees assigned by gender
+	 *
+	 * @param ioService : takes the enum
+	 * @return the actual values of the assigned employees
+	 * @throws EmployeePayrollException if assigning employees details are not found
+	 */
+	public Map<String, Double> readMinimumSalaryByGender(IOService ioService) throws EmployeePayrollException {
+		if (ioService.equals(IOService.DB_IO))
+			return employeePayrollDBService.getMinimumSalaryByGender();
+		return null;
+	}
+
+	/**
+	 * Purpose : To find the maximum salary of the employees assigned by gender
+	 *
+	 * @param ioService : takes the enum
+	 * @return the actual values of the assigned employees
+	 * @throws EmployeePayrollException if assigning employees details are not found
+	 */
+	public Map<String, Double> readMaximumSalaryByGender(IOService ioService) throws EmployeePayrollException {
+		if (ioService.equals(IOService.DB_IO))
+			return employeePayrollDBService.getMaximumSalaryByGender();
+		return null;
+	}
+
+	/**
+	 * Purpose : To find the total salary of the employees assigned by gender
+	 *
+	 * @param ioService : takes the enum
+	 * @return the actual values of the assigned employees
+	 * @throws EmployeePayrollException if assigning employees details are not found
+	 */
+	public Map<String, Double> readSumOfSalaryByGender(IOService ioService) throws EmployeePayrollException {
+		if (ioService.equals(IOService.DB_IO))
+			return employeePayrollDBService.getTotalSalaryByGender();
+		return null;
+	}
+
+	/**
+	 * Purpose : To find the total number of the employees assigned by gender
+	 *
+	 * @param ioService : takes the enum
+	 * @return the actual values of the assigned employees
+	 * @throws EmployeePayrollException if assigning employees details are not found
+	 */
+	public Map<String, Double> readTotalNumOfEmployeesByGender(IOService ioService) throws EmployeePayrollException {
+		if (ioService.equals(IOService.DB_IO))
+			return employeePayrollDBService.getTotalNumOfEmployeesByGender();
 		return null;
 	}
 
