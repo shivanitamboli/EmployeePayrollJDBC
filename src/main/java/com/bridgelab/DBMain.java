@@ -9,8 +9,8 @@ import java.util.Enumeration;
 public class DBMain {
 	public static void main(String[] args) {
 		String jdbcURL = "jdbc:mysql://localhost:3306/payroll_service?useSSL=false";
-		String userName = "root";
-		String password = "1SACHINkore7a";
+		String userName = "shivani";
+		String password = "1234";
 		Connection connection;
 
 		// checking the driver is loaded or not
