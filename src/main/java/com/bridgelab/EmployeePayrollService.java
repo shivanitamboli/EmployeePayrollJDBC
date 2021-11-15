@@ -66,4 +66,24 @@ public class EmployeePayrollService {
 		List<EmployeePayrollData> employeePayrollDataList = employeePayrollDBService.getEmployeePayrollData(name);
 		return employeePayrollDataList.get(0).equals(getEmployeePayrollData(name));
 	}
+
+	/**
+	 * Purpose : To update the employee salary in the database using prepared
+	 * statement
+	 *
+	 * @param name   : taking the name of employee for matching with
+	 *               EmployeePayrollData list
+	 * @param salary : taking the salary of assigned employee for updating and
+	 *               passing in EmployeePayrollData list
+	 * @throws EmployeePayrollException if the assigned employee details are not
+	 *                                  found
+	 */
+	public void updateEmployeeSalaryUsingPreparedStatement(String name, double salary) throws EmployeePayrollException {
+		int result = employeePayrollDBService.updateEmployeeDataPreparedStatement(name, salary);
+		if (result == 0)
+			return;
+		EmployeePayrollData employeePayrollData = this.getEmployeePayrollData(name);
+		if (employeePayrollData != null)
+			employeePayrollData.salary = salary;
+	}
 }
