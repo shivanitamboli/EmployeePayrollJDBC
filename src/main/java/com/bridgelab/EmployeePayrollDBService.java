@@ -21,7 +21,7 @@ public class EmployeePayrollDBService {
 	private Connection getConnection() throws SQLException {
 		String jdbcURL = "jdbc:mysql://localhost:3306/payroll_service?useSSL=false";
 		String userName = "root";
-		String password = "Sudip@2201";
+		String password = "1SACHINkore7a";
 		Connection connection;
 		System.out.println("Connecting to database:" + jdbcURL);
 		connection = DriverManager.getConnection(jdbcURL, userName, password);
@@ -156,17 +156,9 @@ public class EmployeePayrollDBService {
 	 *
 	 * @return employees details
 	 */
-	public List<EmployeePayrollData> readData() {
+	public List<EmployeePayrollData> readData() throws EmployeePayrollException {
 		String sql = "SELECT * FROM employee_payroll";
-		List<EmployeePayrollData> employeePayrollList = new ArrayList<>();
-		try (Connection connection = this.getConnection()) {
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(sql);
-			employeePayrollList = this.getEmployeePayrollData(resultSet);
-		} catch (SQLException | EmployeePayrollException e) {
-			e.printStackTrace();
-		}
-		return employeePayrollList;
+		return getEmployeePayrollDataUsingDB(sql);
 	}
 
 	/**
@@ -203,6 +195,22 @@ public class EmployeePayrollDBService {
 					"Please check the getEmployeePayrollData(name) for detailed information");
 		}
 		return employeePayrollList;
+	}
+
+	/**
+	 * Purpose : To read the data for a certain date range from the database
+	 *
+	 * @param startDate : taking the starting date
+	 * @param endDate   : taking the end date
+	 * @return the details of the employees
+	 * @throws EmployeePayrollException if the details of the employees are not
+	 *                                  found
+	 */
+	public List<EmployeePayrollData> getEmployeePayrollForDateRange(LocalDate startDate, LocalDate endDate)
+			throws EmployeePayrollException {
+		String sql = String.format("SELECT * FROM employee_payroll WHERE start_date BETWEEN '%s' AND '%s';",
+				Date.valueOf(startDate), Date.valueOf(endDate));
+		return this.getEmployeePayrollDataUsingDB(sql);
 	}
 
 	/**
